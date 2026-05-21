@@ -39,33 +39,17 @@ the Oracle generates reality, the Forecast approximates it,
 Policies decide, the Simulator executes, and Analytics visualise.
 """)
 
-st.markdown("""
-```mermaid
-graph LR
-    subgraph Engine
-        A["🌍 Oracle<br/><code>world.py</code>"]
-        B["🔮 Forecast<br/><code>forecast.py</code>"]
-        C["🧠 Policy<br/><code>policies.py</code>"]
-        D["⚡ Simulator<br/><code>simulator.py</code>"]
-    end
-
-    subgraph Frontend
-        E["📊 Analytics<br/><code>pages/*.py</code>"]
-    end
-
-    A -- "W: dict<br/>demand, price, solar" --> D
-    A -- "W_history" --> B
-    B -- "W_forecast: dict<br/>shape (paths, H)" --> C
-    C -- "X: dict<br/>5 flow variables" --> D
-    D -- "Episode result<br/>costs, battery, decisions" --> E
-
-    style A fill:#f5f7fa,stroke:#e74c3c,color:#333
-    style B fill:#f5f7fa,stroke:#f39c12,color:#333
-    style C fill:#f5f7fa,stroke:#2ecc71,color:#333
-    style D fill:#f5f7fa,stroke:#3498db,color:#333
-    style E fill:#f5f7fa,stroke:#9b59b6,color:#333
-```
-""")
+st.code("""
+  🌍 Oracle        🔮 Forecast       🧠 Policy        🔋 Simulator       📊 Analytics
+  world.py    →    forecast.py   →   policies.py   →  simulator.py   →   pages/*.py
+     │                                    ▲                │
+     │           W_history                │                │
+     └────────────────────────────────────┘                │
+                                                          ▼
+                                                   Episode result:
+                                                   costs, battery,
+                                                   decisions
+""", language=None)
 
 # Interface contracts compact table
 st.markdown("#### Interface Contracts at Each Arrow")
@@ -159,21 +143,13 @@ X = {
 }
 """, language="python")
 
-    st.markdown("""
-    ```mermaid
-    graph LR
-        G["⚡ Grid"] -- "x_gb" --> B["🔋 Battery"]
-        S["☀️ Solar"] -- "x_sb" --> B
-        S -- "x_sd" --> D["🏠 Demand"]
-        B -- "x_bd" --> D
-        G -- "x_gd" --> D
-
-        style G fill:#f5f7fa,stroke:#e74c3c,color:#333
-        style S fill:#f5f7fa,stroke:#f1c40f,color:#333
-        style B fill:#f5f7fa,stroke:#2ecc71,color:#333
-        style D fill:#f5f7fa,stroke:#3498db,color:#333
-    ```
-    """)
+    st.code("""
+  ⚡ Grid ──x_gb──▸ 🔋 Battery ──x_bd──▸ 🏠 Demand
+     │                   ▲                   ▲
+     │ x_gd              │ x_sb              │ x_sd
+     │              ☀️ Solar ─────────────────┘
+     └───────────────────────────────────────▸
+""", language=None)
 
     st.subheader("Episode Result — Simulation Output")
     st.markdown("Returned by `run_episode()` for analytics downstream.")
