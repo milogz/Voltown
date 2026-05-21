@@ -1,0 +1,6 @@
+streamlit>=1.28
+numpy
+pandas
+plotly
+gurobipy
+networkx
